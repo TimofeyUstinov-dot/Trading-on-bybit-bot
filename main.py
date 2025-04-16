@@ -9,7 +9,7 @@ symbol = "ETHUSDT"
 usdt_amount = float(os.getenv("USDT_AMOUNT", 100))
 leverage = int(os.getenv("LEVERAGE", 10))
 
-session = HTTP(api_key=api_key, api_secret=api_secret, testnet=False)
+session = HTTP(api_key=api_key, api_secret=api_secret, testnet=True)
 
 @app.route('/', methods=['POST'])
 def webhook():
