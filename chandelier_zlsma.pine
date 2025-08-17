@@ -1,0 +1,32 @@
+//@version=5
+strategy("Chandelier Exit + ZLSMA Strategy", overlay=true, default_qty_type=strategy.percent_of_equity, default_qty_value=100)
+
+length = input.int(7, title="ATR Period")
+mult = input.float(1.4, title="ATR Multiplier")
+zlsmaLength = input.int(38, title="ZLSMA Length")
+
+lsma = ta.linreg(close, zlsmaLength, 0)
+lsma2 = ta.linreg(lsma, zlsmaLength, 0)
+eq = lsma - lsma2
+zlsma = lsma + eq
+plot(zlsma, color=color.orange, title="ZLSMA")
+
+atr = ta.atr(length)
+longStop = close - atr * mult
+shortStop = close + atr * mult
+
+longCond = close > zlsma
+shortCond = close < zlsma
+
+if longCond
+    strategy.entry("Long", strategy.long)
+if shortCond
+    strategy.entry("Short", strategy.short)
+
+if strategy.position_size > 0 and close < longStop
+    strategy.close("Long")
+if strategy.position_size < 0 and close > shortStop
+    strategy.close("Short")
+
+alertcondition(longCond, title="Open Long", message='{"signal":"open_long"}')
+alertcondition(shortCond, title="Open Short", message='{"signal":"open_short"}')
