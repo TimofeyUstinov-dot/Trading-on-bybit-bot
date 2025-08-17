@@ -1,3 +1,0 @@
-flask
-pybit
-python-dotenv
