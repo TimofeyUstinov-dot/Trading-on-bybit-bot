@@ -1,4 +1,0 @@
-PassengerEnabled on
-PassengerAppRoot /home/a92626tx/bybit-bot
-PassengerAppType wsgi
-PassengerStartupFile passenger_wsgi.py
